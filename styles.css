@@ -1,0 +1,481 @@
+@font-face {
+  font-family: "Vitamina Contact";
+  src: url("assets/contacto.woff2?v=web-ok") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vitamina Aviso";
+  src: url("assets/aviso.woff2") format("woff2");
+  font-display: swap;
+}
+
+@property --stage-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #b3d7ff;
+}
+@property --wordmark-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #88fa4e;
+}
+@property --outline-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --tide-x {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: -.45;
+}
+
+:root {
+  color: #000;
+  background: white;
+  font-family: "Century Gothic", "Avenir Next", sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+}
+h1, h2, p { margin: 0; }
+img { display: block; max-width: 100%; height: auto; }
+button { border: 0; padding: 0; background: none; color: inherit; cursor: pointer; font: inherit; }
+button:focus-visible { outline: 2px solid #000; outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.masthead {
+  display: flex;
+  align-items: center;
+  min-height: clamp(2.25rem, 2.85vw, 3.125rem);
+  padding-inline: clamp(.875rem, 1.15vw, 1.5rem);
+}
+
+.collective { display: block; height: auto; width: clamp(7.75rem, 10.8vw, 12rem); }
+.brand-intro { display: none; }
+.entry-active {
+  --intro-hold: 1.22s;
+  --intro-fade: .26s;
+  --landing-start: calc(var(--intro-hold) + var(--intro-fade));
+}
+.entry-active .brand-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: white;
+  animation: reveal-landing var(--intro-fade) var(--intro-hold) ease-out forwards;
+}
+.intro-art {
+  display: block;
+  width: min(78vw, 64rem);
+  height: auto;
+  overflow: visible;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .entry-active .intro-position { animation: seat-cross .45s .44s cubic-bezier(.33,0,.12,1) both; }
+  .entry-active .intro-cross {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: turn-cross .89s cubic-bezier(.22,.76,.15,1) both;
+  }
+  .entry-active .intro-letters {
+    animation: reveal-name .4s .56s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .entry-active .masthead-cross {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: masthead-turn .34s var(--landing-start) ease-out both;
+  }
+  .entry-active .masthead-letters {
+    animation: reveal-name .42s calc(var(--landing-start) + .1s) ease-out both;
+  }
+
+}
+.entry-paused :is(.brand-intro, .intro-art *, .collective use) {
+  animation-play-state: paused;
+}
+/* 126 is the artwork's midpoint. The cross is centred at x = 39.8. */
+@keyframes seat-cross {
+  from { transform: translateX(86.2px); }
+  to { transform: translateX(0); }
+}
+@keyframes turn-cross {
+  0% { transform: rotate(-70deg) scale(2.5); }
+  42%, 50% { transform: rotate(0deg) scale(2.5); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+@keyframes reveal-name {
+  from { clip-path: inset(-5% 84% -5% 16%); opacity: 0; }
+  to { clip-path: inset(-5% 0); opacity: 1; }
+}
+@keyframes reveal-landing {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+}
+@keyframes masthead-turn {
+  from { transform: rotate(-65deg) scale(1.35); }
+  to { transform: none; }
+}
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "brand";
+  position: relative;
+  isolation: isolate;
+  min-height: 10rem;
+  --stage-color: #b3d7ff;
+  --wordmark-color: #88fa4e;
+  --outline-opacity: .27;
+  background-color: var(--stage-color);
+}
+.stage:has(.announcement:not([hidden])) {
+  grid-template-areas: "." "brand" "notice" ".";
+  grid-template-rows: minmax(.75rem, .65fr) auto auto minmax(.75rem, 1fr);
+}
+.brand-panel {
+  grid-area: brand;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.identity {
+  position: relative;
+  width: 71.25%;
+}
+.identity h1 {
+  display: grid;
+  grid-template-columns: minmax(0, 398fr) minmax(0, 742fr);
+  align-items: center;
+}
+.identity h1 > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  fill: var(--wordmark-color);
+  stroke: black;
+  stroke-opacity: var(--outline-opacity, 0);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+.word-studio { grid-area: 1 / 1; }
+.word-vitamina { grid-area: 1 / 2; }
+.news-trigger {
+  position: absolute;
+  -webkit-tap-highlight-color: transparent;
+  top: 55%;
+  left: 96.25%;
+  transform: translate(-50%, -50%);
+  width: max(6.6%, 44px);
+  height: max(72%, 44px);
+}
+
+.contact {
+  display: grid;
+  place-items: center;
+  min-height: clamp(2.25rem, 2.8vw, 3rem);
+  padding: .45rem 1rem;
+  background: #000;
+  color: #fff;
+  font-family: "Vitamina Contact", "Century Gothic", sans-serif;
+  font-size: clamp(.875rem, 1vw, 1.0625rem);
+  line-height: 1.3;
+  letter-spacing: .045em;
+}
+.contact address {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .45rem clamp(.85rem, 1.8vw, 2.7rem);
+  font-style: normal;
+}
+.contact span { white-space: nowrap; }
+.email {
+  text-decoration: underline;
+  text-decoration-color: #888;
+  text-underline-offset: .11em;
+  text-decoration-thickness: 1px;
+}
+
+.announcement {
+  grid-area: notice;
+  place-self: center;
+  position: relative;
+  z-index: 2;
+  margin: clamp(2rem, 6svh, 4.25rem) 0 0;
+  width: min(86vw, 76svh, clamp(24rem, 39vw, 36rem));
+  aspect-ratio: 724 / 484;
+  --panel-border: clamp(2px, .18vw, 3px);
+  border: var(--panel-border) solid #000;
+  background-color: #d5d5d5;
+  container-type: inline-size;
+}
+.announcement h2, .invitation, .notice {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.announcement h2 { top: 12.5%; width: 90.1%; }
+.announcement h2 svg { display: block; width: 100%; height: auto; }
+.announcement .newsletter-ink { fill: #000; }
+.newsletter-band { display: none; }
+@keyframes newsletter-wave {
+  0%, 100% { transform: translateY(7px); }
+  50% { transform: translateY(-7px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage.wash-running {
+    animation: colour-tide 12s linear infinite;
+    --tide-ink: color-mix(in srgb, var(--wordmark-color) 45%, white);
+  }
+  .wash-running::before, .wash-running .newsletter-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(ellipse 95% 130% at -15% 52%,
+      transparent 48%, color-mix(in srgb, var(--tide-ink) 18%, transparent) 74%, transparent 100%);
+    background-repeat: no-repeat;
+    background-size: 65% 100%;
+    background-position-x: calc((var(--tide-x) - .36) * 285.714%);
+  }
+  .wash-running .wave-lettering > use {
+    --letter-at: calc(var(--word-left) + var(--glyph-x) * var(--word-width));
+    --phase: clamp(0, calc((var(--tide-x) - var(--letter-at)) * 2.7 + .5), 1);
+    translate: 0 calc(-1 * var(--ripple-height, 1.8px) * sin(var(--phase) * 1turn) * sin(var(--phase) * .5turn));
+  }
+  .wave-lettering > use {
+    --glyph-x: calc(.05 + var(--column) * .12);
+    animation: newsletter-wave 2.8s ease-in-out infinite;
+    animation-delay: calc(-2.8s + var(--column) * .22s);
+  }
+}
+@keyframes colour-tide {
+  0%, 76% { --tide-x: -.45; }
+  100% { --tide-x: 1.45; }
+}
+.invitation {
+  top: 51%;
+  width: 90%;
+  color: #000;
+  text-align: center;
+  font: clamp(.875rem, 4cqw, 1.5rem)/1.15 "Vitamina Aviso", sans-serif;
+}
+.dismiss {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: max(11.15%, 44px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: white;
+  border: solid #000;
+  border-width: 0 0 var(--panel-border) var(--panel-border);
+}
+.dismiss svg { width: 26%; min-width: 15px; }
+.dismiss:focus-visible { outline-offset: -5px; }
+.notice {
+  top: 71.15%;
+  width: 72%;
+  min-height: max(13.25%, 44px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 3.1%;
+  gap: .35rem;
+  background: #dedede;
+  color: white;
+  font: clamp(.75rem, 2.85cqw, 1rem)/1.25 "Vitamina Contact", sans-serif;
+}
+.notice span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+  -webkit-text-stroke: .9px rgb(0 0 0 / .53);
+  paint-order: stroke fill;
+  text-shadow: 0 .7px .9px rgb(0 0 0 / .45);
+}
+.acknowledge {
+  align-self: stretch;
+  min-width: 44px;
+  min-height: 44px;
+  padding-inline: 3.4%;
+  font: 1.35em "Vitamina Aviso", sans-serif;
+  color: #575757;
+}
+@media (hover: hover) {
+  .dismiss:hover { background: #000; color: white; }
+  .acknowledge:hover { background: white; color: #000; }
+}
+
+@media (max-width: 42rem) {
+  .intro-art { width: 87vw; }
+  .identity { width: 91%; }
+  .masthead {
+    padding-left: max(.875rem, env(safe-area-inset-left));
+    padding-top: env(safe-area-inset-top);
+  }
+  .contact {
+    padding: .6rem .875rem max(.6rem, env(safe-area-inset-bottom));
+    text-align: center;
+  }
+  .contact address { gap: .5rem clamp(.95rem, 4.5vw, 1.75rem); }
+  .announcement {
+    width: min(80vw, 19rem);
+    aspect-ratio: auto;
+    max-height: calc(100dvh - 2rem);
+    overflow: auto;
+    padding: 2.4rem clamp(.7rem, 3vw, .95rem) 1rem;
+  }
+  .announcement h2, .invitation, .notice { position: static; transform: none; margin-inline: auto; }
+  .announcement h2 { width: 100%; }
+  .invitation { width: 64%; margin-top: 5%; }
+  .notice { width: 94%; margin-top: 8%; gap: .35rem; }
+  .notice span { padding-block: .3rem; }
+}
+@media (orientation: portrait) and (max-width: 42rem),
+       (pointer: coarse) and (max-aspect-ratio: 3/5) and (max-width: 52rem) {
+  .masthead {
+    min-height: calc(2.625rem + env(safe-area-inset-top));
+    justify-content: center;
+    padding-inline: max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+    padding-top: env(safe-area-inset-top);
+  }
+  .intro-art { width: min(72vw, 24.3rem); }
+  .stage {
+    --band-height: clamp(6rem, 21svh, 14rem);
+    grid-template-areas: "brand" "band";
+    grid-template-rows: minmax(min-content, 1fr) auto;
+  }
+  .stage:has(.announcement:not([hidden])) {
+    grid-template-areas: "." "brand" "notice" "." "band";
+    grid-template-rows: minmax(.6rem, 1fr) auto auto minmax(.6rem, 1fr) minmax(min-content, var(--band-height));
+  }
+  .identity { width: min(79%, 30rem); container-type: inline-size; }
+  .identity h1 > svg { stroke-width: 2.6; }
+  .identity h1 { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 0; }
+  .identity h1 .word-studio { width: 62%; }
+  .word-studio, .word-vitamina { grid-area: auto; }
+  .news-trigger {
+    right: 1.5%;
+    left: auto;
+    top: auto;
+    bottom: 0;
+    transform: none;
+    width: max(8%, 44px);
+    height: max(13.5cqw, 44px);
+  }
+  .newsletter-band {
+    display: grid;
+    position: relative;
+    isolation: isolate;
+    grid-area: band;
+    place-items: center;
+    min-height: var(--band-height);
+    padding: 1rem max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+    background-color: var(--wordmark-color);
+    --tide-ink: color-mix(in srgb, var(--stage-color) 45%, white);
+    --word-left: .23;
+    --word-width: .54;
+    --ripple-height: 1.45px;
+  }
+  .stage:has(.announcement:not([hidden])) .newsletter-band { min-height: auto; }
+  .newsletter-band > svg { display: block; width: min(54vw, 20rem); }
+  .wave-lettering {
+    fill: color-mix(in srgb, var(--stage-color) 16%, #0c0812);
+    filter: drop-shadow(-6px 6px 0 #fff);
+  }
+  .announcement {
+    margin-top: clamp(1.75rem, 6svh, 3.75rem);
+    width: min(84%, 19rem);
+    max-height: none;
+    overflow: visible;
+    aspect-ratio: auto;
+    padding: clamp(2.6rem, 6svh, 3rem) 1rem clamp(.65rem, 1.9svh, 1.1rem);
+  }
+  .announcement h2, .announcement .invitation, .announcement .notice {
+    position: static;
+    margin-inline: auto;
+    transform: none;
+  }
+  .announcement h2 { width: 100%; }
+  .announcement .dismiss { inset: 0 0 auto auto; }
+  .announcement .invitation { width: 100%; margin-top: clamp(.5rem, 1.75svh, 1.1rem); }
+  .announcement .notice {
+    width: 100%;
+    margin-top: clamp(.5rem, 1.75svh, 1.1rem);
+    min-height: 44px;
+    padding-left: .8rem;
+    gap: .4rem;
+    font-size: clamp(.8125rem, 5cqw, .875rem);
+  }
+  .contact {
+    padding: .9rem max(6%, env(safe-area-inset-right)) max(.9rem, env(safe-area-inset-bottom)) max(6%, env(safe-area-inset-left));
+    text-align: start;
+  }
+  .contact address {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 34rem);
+    gap: .35rem;
+  }
+  .contact .person { font-size: 1.05rem; }
+  .contact .role {
+    white-space: normal;
+    font-size: .79rem;
+    margin-bottom: .2rem;
+  }
+  .contact .email { white-space: normal; overflow-wrap: anywhere; }
+}
+@media (orientation: portrait) and (max-width: 42rem) and (max-height: 40rem) {
+  .stage:has(.announcement:not([hidden])) {
+    --band-height: clamp(5rem, 15svh, 6rem);
+    grid-template-rows: minmax(.3rem, 1fr) auto auto minmax(.3rem, 1fr) minmax(min-content, var(--band-height));
+  }
+  .stage:has(.announcement:not([hidden])) .newsletter-band { padding-block: .45rem; }
+  .announcement { margin-top: clamp(1.5rem, 4.8svh, 1.9rem); }
+}
+@media (orientation: landscape) and (max-height: 32rem) {
+  .masthead { min-height: 2rem; padding-left: max(.875rem, env(safe-area-inset-left)); }
+  .contact { min-height: 2rem; padding-block: .35rem max(.35rem, env(safe-area-inset-bottom)); }
+  .stage { min-height: 5rem; }
+}
+@media (orientation: landscape) and (max-height: 32rem), (min-aspect-ratio: 3/1) {
+  .stage:has(.announcement:not([hidden])) .identity { width: min(66%, 145svh); }
+  .announcement {
+    width: min(74vw, 68svh, 28rem);
+    margin-top: clamp(1rem, 4.5svh, 2rem);
+  }
+}
+@media (orientation: landscape) and (max-width: 42rem) and (max-height: 32rem) {
+  .announcement { width: min(66vw, 18rem); padding: .65rem .875rem .7rem; }
+  .announcement h2 { width: min(65%, calc(100% - 5rem)); }
+  .announcement .invitation { width: 53%; margin-top: .4rem; }
+  .announcement .notice { margin-top: .45rem; }
+}
+@media (pointer: coarse) and (orientation: landscape) and (max-width: 60rem) and (max-height: 32rem) {
+  .intro-art { scale: .9; }
+  .masthead {
+    justify-content: center;
+    padding-inline: max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entry-active { --intro-hold: .55s; --intro-fade: .1s; }
+
+}
